@@ -37,11 +37,10 @@ class Text(list):
         """
         Check if pdftotext available on running platform.
         """
-        # Todo: Mac
         pathstring = os.environ.get('PATH')
         platform_prefix = platform.system()[0]
-        if  platform_prefix in 'L,C,M':
-            # L:Linux, C:Cygwin, M:Mac OS X
+        if  platform_prefix in 'L,C,D':
+            # L:Linux, C:Cygwin, D:Mac OS X (Darwin)
             paths = pathstring.split(':')
             for path in paths:
                 pdftotext = os.path.join(path, 'pdftotext')
@@ -65,7 +64,7 @@ class Text(list):
         pages = []
 
         while True:
-            command = 'pdftotext -{0} -f {1} -l {1} {2} -'.format(layout, self.pagecount+1, pdf)
+            command = 'pdftotext -enc UTF-8 -{0} -f {1} -l {1} {2} -'.format(layout, self.pagecount+1, pdf)
             #page_content = os.popen(command).readlines()
             page_content = os.popen(command).read()
             
